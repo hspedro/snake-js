@@ -169,9 +169,20 @@ const wrapAround = () => {
     }
 }
 
+const eat = () => {
+    if (snake.head.x === apple.x && snake.head.y === apple.y) {
+        snake.body.push({
+            x: apple.x,
+            y: apple.y,
+        });
+        apple.getNewPosition();
+    }
+}
+
 const updateState = () => {
     board.clear();
     snake.move();
+    eat();
     if (collision) {
         checkWallCollisionAndReset();
     } else {
