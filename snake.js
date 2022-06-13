@@ -129,3 +129,19 @@ const mainLoop = () => {
 window.onload = () => {
     mainLoop();
 }
+
+document.addEventListener('keydown', (event) => {
+    const KEY_MAPPING = {
+        ArrowRight: 'RIGHT',
+        ArrowLeft: 'LEFT',
+        ArrowUp: 'UP',
+        ArrowDown: 'DOWN',
+    }
+    const direction = KEY_MAPPING[event.key]
+    if (!direction) {
+        return;
+    }
+    setTimeout(() => {
+        snake.curMove = direction;
+    }, 1);
+});
