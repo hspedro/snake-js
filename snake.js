@@ -195,7 +195,7 @@ const draw = () => {
     board.drawRect(0, 0);
 
     // TODO: add score based on snake size
-    board.setScore();
+    board.setScore(snake.body.length - 1);
     board.drawSnake(snake)
 
     // TODO: draw apple
