@@ -82,6 +82,16 @@ class Snake {
         }
     }
 
+    reset() {
+        this.body = [
+            {
+                x: this.x,
+                y: this.y,
+            }
+        ];
+        this.curMove = 'STOP';
+    }
+
     move() {
         if (!this.moves[this.curMove]) {
             return;
@@ -98,10 +108,41 @@ const snake = new Snake(
     board.ref.height / 2,
     20
 );
+// make it a parameter via button
+const collision = false;
+
+const checkWallCollisionAndReset = () => {
+    const didCollide = (
+        snake.head.x >= board.ref.width ||
+        snake.head.y >= board.ref.height ||
+        snake.head.y < 0 ||
+        snake.head.x < 0
+    );
+    if (didCollide) {
+        snake.reset();
+    }
+}
+
+const wrapAround = () => {
+    if (snake.head.x < 0) {
+        snake.head.x = board.ref.width - snake.size;
+    } else if (snake.head.x >= board.ref.width) {
+        snake.head.x = 0;
+    } else if (snake.head.y < 0) {
+        snake.head.y = board.ref.height - snake.size;
+    } else if (snake.head.y >= board.ref.height) {
+        snake.head.y = 0;
+    }
+}
 
 const updateState = () => {
     board.clear();
     snake.move();
+    if (collision) {
+        checkWallCollisionAndReset();
+    } else {
+        wrapAround();
+    }
 }
 
 const draw = () => {
