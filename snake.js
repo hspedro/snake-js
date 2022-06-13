@@ -102,12 +102,46 @@ class Snake {
     }
 }
 
+class Apple {
+    constructor(boardWidth, boardHeight, size) {
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
+        this.size = size;
+        this.color = 'red';
+    }
+
+    getNewPosition() {
+        while(true) {
+            let isCollidingWithSnake = false;
+            this.x = Math.floor(
+                Math.random() * this.boardWidth / this.size
+            ) * this.size;
+            this.y = Math.floor(
+                Math.random() * this.boardHeight / this.size
+            ) * this.size;
+
+            for (let i = 0; i < snake.body.length; i++) {
+                if (this.x === snake.body[i].x && this.y === snake.body[i].y) {
+                    isCollidingWithSnake = true;
+                }
+            }
+
+            if (!isCollidingWithSnake) {
+                break;
+            }
+        }
+    }
+}
+
 const board = new Board();
 const snake = new Snake(
     board.ref.width / 2,
     board.ref.height / 2,
     20
 );
+const apple = new Apple(board.ref.width, board.ref.height, snake.size);
+apple.getNewPosition();
+
 // make it a parameter via button
 const collision = false;
 
@@ -151,10 +185,10 @@ const draw = () => {
 
     // TODO: add score based on snake size
     board.setScore();
-
     board.drawSnake(snake)
 
     // TODO: draw apple
+    board.drawRect(apple.x, apple.y, apple.color, apple.size, apple.size);
 }
 
 const show = () => {
